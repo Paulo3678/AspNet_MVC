@@ -16,9 +16,24 @@ namespace SistemaVendas.Controllers
 
         public IActionResult Index()
         {
-            DAL objDal = new DAL();
-            objDal.ExecutarComandoSql("INSERT INTO VENDEDOR (nome,email,senha) VALUES ('Filipe', 'nome@gmail.com', '123456');");
+            //DAL objDal = new DAL();
+            //objDal.ExecutarComandoSql("INSERT INTO VENDEDOR (nome,email,senha) VALUES ('Filipe', 'nome@gmail.com', '123456');");
 
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginModel login)
+        {
+            if (!ModelState.IsValid)
+            {
+                bool loginOk = login.ValidarLogin();
+            }
 
             return View();
         }

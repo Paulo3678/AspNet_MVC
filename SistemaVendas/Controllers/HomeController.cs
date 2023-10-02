@@ -14,13 +14,16 @@ namespace SistemaVendas.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Menu()
         {
-            //DAL objDal = new DAL();
-            //objDal.ExecutarComandoSql("INSERT INTO VENDEDOR (nome,email,senha) VALUES ('Filipe', 'nome@gmail.com', '123456');");
-
             return View();
         }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -30,9 +33,19 @@ namespace SistemaVendas.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel login)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 bool loginOk = login.ValidarLogin();
+                if (loginOk)
+                {
+                    HttpContext.Session.SetString("IdUsuarioLogado", login.Id);
+                    HttpContext.Session.SetString("NomeUsuarioLogado", login.Nome);
+                    return RedirectToAction("Menu", "Home");
+                }
+                else
+                {
+                    TempData["ErrorLogin"] = "E-mail ou Senha são inválidos";
+                }
             }
 
             return View();

@@ -13,14 +13,21 @@ public class LoginModel
     [Required(ErrorMessage = "É preciso informar a senha para continuar.")]
     public string Senha { get; set; }
 
+    public string? Id { get; set; }
+    public string? Nome { get; set; }
+
+
     public bool ValidarLogin()
     {
-        string sql = $"SELECT id FROM vendedor WHERE email='{Email}' AND senha='{Senha}'";
+        string sql = $"SELECT * FROM vendedor WHERE email='{Email}' AND senha='{Senha}'";
         DAL objDAL = new DAL();
         DataTable dt = objDAL.RetDataTable(sql);
-
         if (dt.Rows.Count == 1)
         {
+            Console.WriteLine("ABACATE");
+            Id = dt.Rows[0]["id"].ToString();
+            Nome = dt.Rows[0]["nome"].ToString();
+            Console.WriteLine(Id);
             return true;
         }
         else
